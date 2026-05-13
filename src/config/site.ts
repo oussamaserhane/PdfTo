@@ -1,33 +1,46 @@
+import { brand } from './brand';
 /**
  * Site configuration
  */
+
 export const siteConfig = {
-  name: 'PDFCraft',
-  description: 'Professional PDF Tools - Free, Private & Browser-Based. Merge, split, compress, convert, and edit PDF files online without uploading to servers.',
-  url: 'https://pdfcraft.devtoolcafe.com',
+  name: brand.name,
+
+  description: brand.description,
+
+  url: brand.domain,
+
   ogImage: '/images/og-image.png',
+
   links: {
-    github: 'https://github.com/PDFCraftTool/pdfcraft',
-    twitter: 'https://twitter.com/pdfcraft',
+    github: 'https://github.com/',
+    twitter: 'https://twitter.com/',
   },
-  creator: 'PDFCraft Team',
+
+  creator: `${brand.name} Team`,
+
   keywords: [
-    'PDF tools',
+    'PDF automation',
+    'AI PDF tools',
     'PDF editor',
     'merge PDF',
     'split PDF',
     'compress PDF',
     'convert PDF',
-    'free PDF tools',
-    'online PDF editor',
+    'secure PDF',
+    'PDF workflows',
+    'online PDF tools',
     'browser-based PDF',
-    'private PDF processing',
+    'AI document processing',
   ],
-  // SEO-related settings
+
   seo: {
-    titleTemplate: '%s | PDFCraft',
-    defaultTitle: 'PDFCraft - Professional PDF Tools',
-    twitterHandle: '@pdfcraft',
+    titleTemplate: `%s | ${brand.name}`,
+
+    defaultTitle: `${brand.name} - ${brand.tagline}`,
+
+    twitterHandle: '@pdfto',
+
     locale: 'en_US',
   },
 };
@@ -39,9 +52,11 @@ export const navConfig = {
   mainNav: [
     { title: 'Home', href: '/' },
     { title: 'Tools', href: '/tools' },
+    { title: 'AI Workflows', href: '/ai-workflows' },
     { title: 'About', href: '/about' },
     { title: 'FAQ', href: '/faq' },
   ],
+
   footerNav: [
     { title: 'Privacy', href: '/privacy' },
     { title: 'Terms', href: '/terms' },

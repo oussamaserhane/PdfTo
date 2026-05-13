@@ -72,3 +72,7 @@ public/libreoffice-wasm/soffice.data
 # Tauri / Cargo (local build output)
 src-tauri/target/
 
+package-lock.json
+public/workers/pdf.worker.legacy.min.js
+public/workers/pdf.worker.min.mjs
+src/config/brand.ts
