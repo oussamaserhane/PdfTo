@@ -1603,15 +1603,23 @@
       "successMessage": "Page sizes fixed successfully!"
     },
     "bookmark": {
-      "uploadLabel": "Upload PDF File",
-      "uploadDescription": "Drag and drop a PDF file to edit bookmarks.",
-      "pdfPreview": "PDF Preview",
-      "bookmarksTitle": "Bookmarks",
-      "addBookmark": "Add Bookmark",
-      "noBookmarks": "No bookmarks yet. Click 'Add Bookmark' to create one.",
-      "hint": "Click a bookmark to preview its page. Use +/✎/× to add child, edit, or delete.",
-      "saveButton": "Save Bookmarks",
-      "successMessage": "Bookmarks saved successfully!"
+      "uploadLabel": "PDFファイルをアップロード",
+      "uploadDescription": "ブックマークを編集するにはPDFファイルをドラッグ＆ドロップしてください。",
+      "pdfPreview": "PDFプレビュー",
+      "bookmarksTitle": "ブックマーク",
+      "addBookmark": "ブックマークを追加",
+      "noBookmarks": "ブックマークはまだありません。「ブックマークを追加」をクリックして作成してください。",
+      "hint": "ブックマークをクリックするとそのページをプレビューできます。+/✎/×を使用して、子要素の追加、編集、削除が行えます。",
+      "saveButton": "ブックマークを保存",
+      "successMessage": "ブックマークが正常に保存されました！",
+      "sort": "並べ替え",
+      "sortByPage": "ページ番号順に並べ替え",
+      "extractExisting": "既存のブックマークを抽出",
+      "dragHint": "ドラッグ＆ドロップでブックマークを並べ替え",
+      "extracting": "既存のブックマークを抽出しています...",
+      "replaceConfirm": "現在のブックマークが置き換えられます。続行しますか？",
+      "noBookmarksFound": "このPDFにブックマークは見つかりませんでした。",
+      "failedExtract": "ブックマークの抽出に失敗しました。"
     },
     "pageNumbers": {
       "uploadLabel": "PDFファイルをアップロード",

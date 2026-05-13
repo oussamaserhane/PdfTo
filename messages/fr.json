@@ -1603,15 +1603,23 @@
       "successMessage": "Page sizes fixed successfully!"
     },
     "bookmark": {
-      "uploadLabel": "Upload PDF File",
-      "uploadDescription": "Drag and drop a PDF file to edit bookmarks.",
-      "pdfPreview": "PDF Preview",
-      "bookmarksTitle": "Bookmarks",
-      "addBookmark": "Add Bookmark",
-      "noBookmarks": "No bookmarks yet. Click 'Add Bookmark' to create one.",
-      "hint": "Click a bookmark to preview its page. Use +/✎/× to add child, edit, or delete.",
-      "saveButton": "Save Bookmarks",
-      "successMessage": "Bookmarks saved successfully!"
+      "uploadLabel": "Charger un fichier PDF",
+      "uploadDescription": "Glissez-déposez un fichier PDF pour modifier les signets.",
+      "pdfPreview": "Aperçu PDF",
+      "bookmarksTitle": "Signets",
+      "addBookmark": "Ajouter un signet",
+      "noBookmarks": "Aucun signet pour le moment. Cliquez sur 'Ajouter un signet' pour en créer un.",
+      "hint": "Cliquez sur un signet pour prévisualiser sa page. Utilisez +/✎/× pour ajouter un sous-signet, modifier ou supprimer.",
+      "saveButton": "Enregistrer les signets",
+      "successMessage": "Signets enregistrés avec succès !",
+      "sort": "Trier",
+      "sortByPage": "Trier par numéro de page",
+      "extractExisting": "Extraire les signets existants",
+      "dragHint": "Glisser-déposer pour réorganiser les signets",
+      "extracting": "Extraction des signets existants...",
+      "replaceConfirm": "Cela remplacera les signets actuels. Continuer ?",
+      "noBookmarksFound": "Aucun signet trouvé dans ce PDF.",
+      "failedExtract": "Échec de l'extraction des signets."
     },
     "pageNumbers": {
       "uploadLabel": "Télécharger un fichier PDF",

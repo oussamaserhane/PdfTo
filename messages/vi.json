@@ -1597,7 +1597,15 @@
     "noBookmarks": "Chưa có dấu trang. Nhấp 'Thêm Dấu trang' để tạo.",
     "hint": "Nhấp vào dấu trang để xem trước trang tương ứng. Sử dụng +/✎/× để thêm con, chỉnh sửa hoặc xóa.",
     "saveButton": "Lưu Dấu trang",
-    "successMessage": "Lưu dấu trang thành công!"
+    "successMessage": "Lưu dấu trang thành công!",
+    "sort": "Sắp xếp",
+    "sortByPage": "Sắp xếp theo số trang",
+    "extractExisting": "Trích xuất dấu trang hiện có",
+    "dragHint": "Kéo và thả để sắp xếp lại dấu trang",
+    "extracting": "Đang trích xuất dấu trang hiện có...",
+    "replaceConfirm": "Điều này sẽ thay thế các dấu trang hiện tại. Tiếp tục?",
+    "noBookmarksFound": "Không tìm thấy dấu trang nào trong tệp PDF này.",
+    "failedExtract": "Trích xuất dấu trang thất bại."
   },
   "pageNumbers": {
     "uploadLabel": "Tải lên Tệp PDF",

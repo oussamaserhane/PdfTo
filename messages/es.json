@@ -1603,15 +1603,23 @@
       "successMessage": "Page sizes fixed successfully!"
     },
     "bookmark": {
-      "uploadLabel": "Upload PDF File",
-      "uploadDescription": "Drag and drop a PDF file to edit bookmarks.",
-      "pdfPreview": "PDF Preview",
-      "bookmarksTitle": "Bookmarks",
-      "addBookmark": "Add Bookmark",
-      "noBookmarks": "No bookmarks yet. Click 'Add Bookmark' to create one.",
-      "hint": "Click a bookmark to preview its page. Use +/✎/× to add child, edit, or delete.",
-      "saveButton": "Save Bookmarks",
-      "successMessage": "Bookmarks saved successfully!"
+      "uploadLabel": "Subir archivo PDF",
+      "uploadDescription": "Arrastra y suelta un archivo PDF para editar marcadores.",
+      "pdfPreview": "Vista previa de PDF",
+      "bookmarksTitle": "Marcadores",
+      "addBookmark": "Agregar marcador",
+      "noBookmarks": "Aún no hay marcadores. Haz clic en 'Agregar marcador' para crear uno.",
+      "hint": "Haz clic en un marcador para ver su página. Usa +/✎/× para añadir sub-marcadores, editar o eliminar.",
+      "saveButton": "Guardar marcadores",
+      "successMessage": "¡Marcadores guardados con éxito!",
+      "sort": "Ordenar",
+      "sortByPage": "Ordenar por número de página",
+      "extractExisting": "Extraer marcadores existentes",
+      "dragHint": "Arrastrar y soltar para reordenar marcadores",
+      "extracting": "Extrayendo marcadores existentes...",
+      "replaceConfirm": "¿Deseas reemplazar los marcadores actuales? ¿Continuar?",
+      "noBookmarksFound": "No se encontraron marcadores en este PDF.",
+      "failedExtract": "Error al extraer los marcadores."
     },
     "pageNumbers": {
       "uploadLabel": "Subir archivo PDF",

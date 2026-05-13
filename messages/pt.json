@@ -1611,7 +1611,15 @@
       "noBookmarks": "Ainda não há marcadores. Clique em 'Adicionar marcador' para criar um.",
       "hint": "Clique em um marcador para visualizar sua página. Use +/✎/× para adicionar um subitem, editar ou excluir.",
       "saveButton": "Salvar marcadores",
-      "successMessage": "Marcadores salvos com sucesso!"
+      "successMessage": "Marcadores salvos com sucesso!",
+      "sort": "Ordenar",
+      "sortByPage": "Ordenar por número de página",
+      "extractExisting": "Extrair marcadores existentes",
+      "dragHint": "Arraste e solte para reordenar os marcadores",
+      "extracting": "Extraindo marcadores existentes...",
+      "replaceConfirm": "Isso substituirá os marcadores atuais. Continuar?",
+      "noBookmarksFound": "Nenhum marcador encontrado neste PDF.",
+      "failedExtract": "Falha ao extrair marcadores."
     },
     "pageNumbers": {
       "uploadLabel": "Enviar arquivo PDF",

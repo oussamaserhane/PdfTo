@@ -1603,15 +1603,23 @@
       "successMessage": "Page sizes fixed successfully!"
     },
     "bookmark": {
-      "uploadLabel": "Upload PDF File",
-      "uploadDescription": "Drag and drop a PDF file to edit bookmarks.",
-      "pdfPreview": "PDF Preview",
-      "bookmarksTitle": "Bookmarks",
-      "addBookmark": "Add Bookmark",
-      "noBookmarks": "No bookmarks yet. Click 'Add Bookmark' to create one.",
-      "hint": "Click a bookmark to preview its page. Use +/✎/× to add child, edit, or delete.",
-      "saveButton": "Save Bookmarks",
-      "successMessage": "Bookmarks saved successfully!"
+      "uploadLabel": "PDF-Datei hochladen",
+      "uploadDescription": "Ziehen Sie eine PDF-Datei hierher, um Lesezeichen zu bearbeiten.",
+      "pdfPreview": "PDF-Vorschau",
+      "bookmarksTitle": "Lesezeichen",
+      "addBookmark": "Lesezeichen hinzufügen",
+      "noBookmarks": "Noch keine Lesezeichen. Klicken Sie auf 'Lesezeichen hinzufügen', um eines zu erstellen.",
+      "hint": "Klicken Sie auf ein Lesezeichen, um die entsprechende Seite anzuzeigen. Verwenden Sie +/✎/×, um Unterlesezeichen hinzuzufügen, zu bearbeiten oder zu löschen.",
+      "saveButton": "Lesezeichen speichern",
+      "successMessage": "Lesezeichen erfolgreich gespeichert!",
+      "sort": "Sortieren",
+      "sortByPage": "Nach Seitenzahl sortieren",
+      "extractExisting": "Vorhandene Lesezeichen extrahieren",
+      "dragHint": "Drag-and-Drop zum Neuanordnen von Lesezeichen",
+      "extracting": "Vorhandene Lesezeichen werden extrahiert...",
+      "replaceConfirm": "Dies ersetzt die aktuellen Lesezeichen. Fortfahren?",
+      "noBookmarksFound": "Keine Lesezeichen in dieser PDF gefunden.",
+      "failedExtract": "Fehler beim Extrahieren der Lesezeichen."
     },
     "pageNumbers": {
       "uploadLabel": "PDF-Datei hochladen",
