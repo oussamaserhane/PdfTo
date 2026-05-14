@@ -195,9 +195,12 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                 AI-first PDF workspace
               </div>
 
-              <h1 id="hero-title" className="mx-auto mt-5 max-w-4xl text-4xl font-black tracking-tight text-[hsl(var(--color-foreground))] sm:text-5xl lg:text-6xl">
-                Upload a PDF. <span className="text-gradient-brand">Tell PDFto</span> what to do.
-              </h1>
+              <h1
+  id="hero-title"
+  className="mx-auto mt-5 max-w-none whitespace-normal text-center text-[clamp(2.5rem,4.5vw,4.75rem)] font-black leading-[1.05] tracking-tight text-[hsl(var(--color-foreground))] lg:whitespace-nowrap"
+>
+  Upload a PDF. <span className="text-gradient-brand">Tell PDFto</span> what to do.
+</h1>
             </div>
 
             <div className="mx-auto mt-8 max-w-5xl">
@@ -355,7 +358,9 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                       <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-[hsl(var(--color-primary))]">
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </span>
-                      <h3 className="mt-5 text-lg font-black text-[hsl(var(--color-foreground))]">{feature.title}</h3>
+                      <h3 className="mt-5 text-base lg:text-lg font-bold text-[hsl(var(--color-foreground))] whitespace-nowrap">{feature.title}</h3>
+
+                      
                       <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--color-muted-foreground))]">{feature.description}</p>
                     </Card>
                   );
