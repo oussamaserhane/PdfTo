@@ -1,305 +1,251 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { ArrowRight, Zap, Wrench, Lock, Sparkles, Edit, FileImage, FolderOpen, Settings, ShieldCheck, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Languages, Lock, ShieldCheck, Sparkles, UploadCloud, Workflow, Zap } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ToolGrid } from '@/components/tools/ToolGrid';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { getAllTools, getToolsByCategory, getPopularTools } from '@/config/tools';
+import { getPopularTools } from '@/config/tools';
+import { brand } from '@/config/brand';
 import { type Locale } from '@/lib/i18n/config';
-import { CATEGORY_INFO, type ToolCategory } from '@/types/tool';
 
 interface HomePageClientProps {
   locale: Locale;
   localizedToolContent?: Record<string, { title: string; description: string }>;
 }
 
-// ... (previous imports)
+const examplePrompts = [
+  'Compress this PDF for email',
+  'Merge these files and add page numbers',
+  'Extract pages 5 to 10 and convert them to images',
+  'Add a confidential watermark',
+  'OCR this scanned PDF in French',
+];
 
-// ... (props interface)
-
-// ... (previous imports)
-
-// ... (props interface)
+const features = [
+  {
+    icon: Workflow,
+    title: 'Classic PDF tools',
+    description: 'Merge, split, compress, convert, OCR, watermark, secure, and organize PDFs with the existing PDFCraft engine.',
+  },
+  {
+    icon: Sparkles,
+    title: 'AI-ready automation',
+    description: 'The interface is prepared for natural-language workflows while preserving current tool behavior.',
+  },
+  {
+    icon: Zap,
+    title: 'Fast browser workflows',
+    description: 'Keep the privacy-first, client-side processing model while presenting a polished SaaS experience.',
+  },
+  {
+    icon: Languages,
+    title: 'Multilingual by design',
+    description: 'Built for localized pages and ready for English, French, Arabic, and existing PdfTo locales.',
+  },
+  {
+    icon: Lock,
+    title: 'Privacy-aware processing',
+    description: 'Designed around temporary, controlled PDF workflows and the original browser-first privacy model.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Self-hosting ready',
+    description: 'A visual foundation for evolving PDFto into a self-hosted PDF automation platform.',
+  },
+];
 
 export default function HomePageClient({ locale, localizedToolContent }: HomePageClientProps) {
-  const t = useTranslations();
-  const allTools = getAllTools();
-  const popularTools = getPopularTools();
-
-  // Feature highlights (same as before)
-  const features = [
-    {
-      icon: ShieldCheck,
-      titleKey: 'home.features.privacy.title',
-      descriptionKey: 'home.features.privacy.description',
-      color: 'text-green-500',
-    },
-    {
-      icon: Zap,
-      titleKey: 'home.features.free.title',
-      descriptionKey: 'home.features.free.description',
-      color: 'text-yellow-500',
-    },
-    {
-      icon: Wrench,
-      titleKey: 'home.features.powerful.title',
-      descriptionKey: 'home.features.powerful.description',
-      color: 'text-blue-500',
-    },
-  ];
-
-  // Category icons mapping
-  const categoryIcons: Record<ToolCategory, typeof Edit> = {
-    'edit-annotate': Edit,
-    'convert-to-pdf': FileImage,
-    'convert-from-pdf': FileImage,
-    'organize-manage': FolderOpen,
-    'optimize-repair': Settings,
-    'secure-pdf': ShieldCheck,
-  };
-
-  const categoryTranslationKeys: Record<ToolCategory, string> = {
-    'edit-annotate': 'editAnnotate',
-    'convert-to-pdf': 'convertToPdf',
-    'convert-from-pdf': 'convertFromPdf',
-    'organize-manage': 'organizeManage',
-    'optimize-repair': 'optimizeRepair',
-    'secure-pdf': 'securePdf',
-  };
-
-  // Category sections to display
-  const categoryOrder: ToolCategory[] = [
-    'edit-annotate',
-    'convert-to-pdf',
-    'convert-from-pdf',
-    'organize-manage',
-    'optimize-repair',
-    'secure-pdf',
-  ];
+  const popularTools = getPopularTools().slice(0, 8);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[hsl(var(--color-background))]">
+    <div className="min-h-screen bg-[hsl(var(--color-background))]">
       <Header locale={locale} />
 
-      <main id="main-content" className="flex-1 relative" tabIndex={-1}>
-        {/* Hero Section */}
-        <section
-          className="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-28"
-          aria-labelledby="hero-title"
-        >
-          {/* Animated Background Blobs */}
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[hsl(var(--color-primary)/0.2)] rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-[hsl(var(--color-accent)/0.2)] rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-            <div className="absolute -bottom-32 left-1/2 w-96 h-96 bg-[hsl(var(--color-secondary)/0.3)] rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
-          </div>
-
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              {/* Brand Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-[hsl(var(--color-background)/0.8)] border border-[hsl(var(--color-primary)/0.2)] shadow-sm backdrop-blur-md transition-all hover:bg-[hsl(var(--color-background))]">
-                <Sparkles className="h-4 w-4 text-[hsl(var(--color-primary))]" aria-hidden="true" />
-                <span className="text-sm font-medium text-[hsl(var(--color-primary))]">
-                  {t('common.brand')}
+      <main id="main-content" className="flex-1" tabIndex={-1}>
+        <section className="relative overflow-hidden bg-hero-gradient pt-32 pb-24 lg:pt-40 lg:pb-28" aria-labelledby="hero-title">
+          <div className="absolute inset-0 bg-grid opacity-40" />
+          <div className="container relative mx-auto px-4">
+            <div className="grid items-center gap-14 lg:grid-cols-2">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.82)] px-4 py-2 text-sm font-medium text-[hsl(var(--color-muted-foreground))] shadow-sm backdrop-blur">
+                  <Sparkles className="h-4 w-4 text-[hsl(var(--color-accent))]" aria-hidden="true" />
+                  {brand.tagline}
                 </span>
-              </div>
 
-              {/* Hero Title */}
-              <h1 id="hero-title" className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-                <span className="text-[hsl(var(--color-foreground))]">{t('home.hero.title')} </span>
-                <span className="text-gradient block mt-1 pb-2">{t('home.hero.highlight')}</span>
-              </h1>
+                <h1 id="hero-title" className="mt-6 text-4xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-5xl lg:text-6xl">
+                  PDF tools and <span className="text-gradient-brand">AI automation</span> in one place.
+                </h1>
 
-              {/* Hero Subtitle */}
-              <p className="text-lg text-[hsl(var(--color-muted-foreground))] mb-8 max-w-2xl mx-auto leading-relaxed">
-                {t('home.hero.subtitle')}
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link href={`/${locale}/tools`}>
-                  <Button variant="primary" size="lg" className="h-11 px-8 text-base shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
-                    {t('home.hero.cta')}
-                    <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-                  </Button>
-                </Link>
-                <div className="flex items-center gap-2 text-sm text-[hsl(var(--color-muted-foreground))] bg-[hsl(var(--color-background)/0.5)] px-4 py-2 rounded-full border border-[hsl(var(--color-border))] backdrop-blur-sm">
-                  <Lock className="h-4 w-4 text-green-500" aria-hidden="true" />
-                  <span>{t('common.footer.privacyBadge')}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-12 relative z-20" aria-label="Features">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <Card key={index} className="p-6 text-center glass-card border-0 hover:-translate-y-1 transition-transform duration-300" hover={false}>
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[hsl(var(--color-primary)/0.1)] mb-4 text-[hsl(var(--color-primary))]">
-                      <Icon className={`h-6 w-6 ${feature.color}`} aria-hidden="true" />
-                    </div>
-                    <h3 className="text-lg font-bold text-[hsl(var(--color-foreground))] mb-2">
-                      {t(feature.titleKey)}
-                    </h3>
-                    <p className="text-sm text-[hsl(var(--color-muted-foreground))] leading-relaxed">
-                      {t(feature.descriptionKey)}
-                    </p>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Popular Tools Section */}
-        <section className="py-16 bg-[hsl(var(--color-muted)/0.5)]" aria-labelledby="popular-tools-heading">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-[hsl(var(--color-primary)/0.1)] border border-[hsl(var(--color-primary)/0.2)]">
-                <Star className="h-4 w-4 text-[hsl(var(--color-primary))]" aria-hidden="true" />
-                <span className="text-sm font-medium text-[hsl(var(--color-primary))]">
-                  {t('home.popularTools.badge')}
-                </span>
-              </div>
-              <h2 id="popular-tools-heading" className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-3">
-                {t('home.popularTools.title')}
-              </h2>
-              <p className="text-[hsl(var(--color-muted-foreground))] max-w-2xl mx-auto text-base">
-                {t('home.popularTools.description')}
-              </p>
-            </div>
-            <ToolGrid
-              tools={popularTools}
-              locale={locale}
-              localizedToolContent={localizedToolContent}
-            />
-          </div>
-        </section>
-
-        <section className="py-16" aria-labelledby="featured-tools-heading">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-              <div className="max-w-2xl">
-                <h2 id="featured-tools-heading" className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-2">
-                  {t(`home.categories.${categoryTranslationKeys['organize-manage']}`)}
-                </h2>
-                <p className="text-[hsl(var(--color-muted-foreground))] text-base">
-                  {t(`home.categoriesDescription.${categoryTranslationKeys['organize-manage']}`)}
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[hsl(var(--color-muted-foreground))]">
+                  Convert, compress, merge, split, secure, and automate PDFs using the real PDFCraft tool engine behind a modern PDFto interface.
                 </p>
+
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Link href={`/${locale}/tools`}>
+                    <Button variant="primary" size="lg" className="h-12 px-8 text-base shadow-[var(--shadow-glow)] transition hover:-translate-y-0.5">
+                      Start with a PDF
+                      <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                    </Button>
+                  </Link>
+                  <Link href={`/${locale}/tools/compress-pdf`}>
+                    <Button variant="outline" size="lg" className="h-12 px-8 text-base">
+                      Try Compress PDF
+                    </Button>
+                  </Link>
+                </div>
+
+                <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[hsl(var(--color-muted-foreground))]">
+                  {['No installation', 'Browser-first tools', 'Multilingual UI'].map((item) => (
+                    <span key={item} className="inline-flex items-center gap-1.5">
+                      <CheckCircle2 className="h-4 w-4 text-[hsl(var(--color-success))]" aria-hidden="true" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <Link href={`/${locale}/tools`}>
-                <Button variant="outline" size="sm" className="group">
-                  {t('common.navigation.tools')}
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </Button>
-              </Link>
+
+              <div className="relative">
+                <div className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-br from-[hsl(var(--color-primary)/0.20)] via-[hsl(var(--color-accent)/0.10)] to-transparent blur-3xl" />
+                <Card className="overflow-hidden rounded-[2rem] border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.92)] p-5 shadow-2xl backdrop-blur" hover={false}>
+                  <div className="rounded-3xl border-2 border-dashed border-[hsl(var(--color-border))] bg-[hsl(var(--color-background))] p-8 text-center transition hover:border-[hsl(var(--color-primary)/0.55)] hover:bg-[hsl(var(--color-primary-soft))]">
+                    <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-[hsl(var(--color-primary))] shadow-[var(--shadow-soft)]">
+                      <UploadCloud className="h-8 w-8" aria-hidden="true" />
+                    </div>
+                    <h2 className="mt-5 text-xl font-bold text-[hsl(var(--color-foreground))]">Drop a PDF to start</h2>
+                    <p className="mt-2 text-sm text-[hsl(var(--color-muted-foreground))]">Use a single tool now, or combine tools later in workflows.</p>
+                    <Link href={`/${locale}/tools`} className="mt-5 inline-flex rounded-xl bg-[hsl(var(--color-primary))] px-5 py-2.5 text-sm font-semibold text-white shadow-[var(--shadow-glow)]">
+                      Browse tools
+                    </Link>
+                  </div>
+
+                  <div className="mt-5 rounded-3xl border border-[hsl(var(--color-border))] bg-[hsl(var(--color-secondary)/0.55)] p-4">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[hsl(var(--color-muted-foreground))]">
+                      <Sparkles className="h-3.5 w-3.5 text-[hsl(var(--color-accent))]" /> Future AI plan preview
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-[hsl(var(--color-foreground))]">“Compress this PDF for email and add page numbers”</p>
+                    <ol className="mt-4 space-y-2 text-sm">
+                      {['Compress PDF', 'Add page numbers', 'Export final document'].map((step, index) => (
+                        <li key={step} className="flex items-center gap-2">
+                          <span className="grid h-6 w-6 place-items-center rounded-full bg-[hsl(var(--color-primary))] text-xs font-bold text-white">{index + 1}</span>
+                          <span className="text-[hsl(var(--color-foreground))]">{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </Card>
+              </div>
             </div>
-            <ToolGrid
-              tools={getToolsByCategory('organize-manage').slice(0, 8)}
-              locale={locale}
-              localizedToolContent={localizedToolContent}
-            />
           </div>
         </section>
 
-        {/* Tool Categories Section */}
-        <section className="py-16 bg-[hsl(var(--color-muted)/0.3)]" aria-labelledby="categories-heading">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <h2 id="categories-heading" className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-3">
-                {t('home.categoriesSection.title')}
+        <section className="container mx-auto px-4 py-20" aria-labelledby="popular-tools-title">
+          <div className="mb-9 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--color-primary-soft))] px-3 py-1 text-sm font-semibold text-[hsl(var(--color-primary))]">
+                <Sparkles className="h-4 w-4" aria-hidden="true" /> Popular tools
+              </span>
+              <h2 id="popular-tools-title" className="mt-4 text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-4xl">
+                Start with the tools people use most
               </h2>
-              <p className="text-[hsl(var(--color-muted-foreground))] max-w-2xl mx-auto text-base">
-                {t('home.categoriesSection.description', { count: allTools.length })}
+              <p className="mt-2 max-w-2xl text-[hsl(var(--color-muted-foreground))]">
+                These cards still connect to the existing PdfTo/PDFCraft routes and tool implementations.
               </p>
             </div>
+            <Link href={`/${locale}/tools`}>
+              <Button variant="outline">
+                All tools <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Button>
+            </Link>
+          </div>
+          <ToolGrid tools={popularTools} locale={locale} localizedToolContent={localizedToolContent} />
+        </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {categoryOrder.map((category) => {
-                const categoryTools = getToolsByCategory(category);
-                const Icon = categoryIcons[category];
-                const categoryName = t(`home.categories.${categoryTranslationKeys[category]}`);
-                const categoryDescription = t(`home.categoriesDescription.${categoryTranslationKeys[category]}`);
+        <section className="bg-[hsl(var(--color-secondary)/0.45)] py-24" aria-labelledby="ai-section-title">
+          <div className="container mx-auto px-4">
+            <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-[hsl(var(--color-accent-soft))] px-3 py-1 text-sm font-semibold text-[hsl(var(--color-accent))]">
+                  <Sparkles className="h-4 w-4" aria-hidden="true" /> AI-ready interface
+                </span>
+                <h2 id="ai-section-title" className="mt-5 text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-4xl">
+                  Designed for natural-language PDF workflows
+                </h2>
+                <p className="mt-4 text-[hsl(var(--color-muted-foreground))]">
+                  This phase only refreshes design. Future AI orchestration can map prompts to the existing tool registry without rewriting PDF processing logic.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-2">
+                  {examplePrompts.map((prompt) => (
+                    <span key={prompt} className="rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] px-3 py-1.5 text-sm text-[hsl(var(--color-foreground))] shadow-sm">
+                      {prompt}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-                return (
-                  <Link
-                    key={category}
-                    href={`/${locale}/tools?category=${category}`}
-                    className="group"
-                  >
-                    <Card className="p-5 h-full glass-card hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-[hsl(var(--color-border)/0.6)]">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-[hsl(var(--color-primary)/0.1)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="h-5 w-5 text-[hsl(var(--color-primary))]" aria-hidden="true" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-base text-[hsl(var(--color-foreground))] mb-1 group-hover:text-[hsl(var(--color-primary))] transition-colors">
-                            {categoryName}
-                          </h3>
-                          <p className="text-xs text-[hsl(var(--color-muted-foreground))] line-clamp-2 mb-2">
-                            {categoryDescription}
-                          </p>
-                          <div className="flex items-center text-xs font-medium text-[hsl(var(--color-primary))]">
-                            <span className="bg-[hsl(var(--color-primary)/0.1)] px-2 py-0.5 rounded-md">
-                              {t('home.categoriesSection.toolsCount', { count: categoryTools.length })}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
-                );
-              })}
+              <Card className="rounded-[2rem] border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] p-6 shadow-[var(--shadow-soft)]" hover={false}>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[hsl(var(--color-muted-foreground))]">
+                  <span className="h-2 w-2 rounded-full bg-[hsl(var(--color-success))]" /> Example workflow
+                </div>
+                <p className="mt-3 text-lg font-bold text-[hsl(var(--color-foreground))]">“Merge these contracts and add a confidential watermark”</p>
+                <div className="mt-5 space-y-3">
+                  {[
+                    ['Merge PDF', '3 input files → 1 output'],
+                    ['Add watermark', 'text: CONFIDENTIAL · diagonal'],
+                    ['Export final document', 'contracts-merged.pdf'],
+                  ].map(([name, meta], index) => (
+                    <div key={name} className="flex items-start gap-3 rounded-2xl border border-[hsl(var(--color-border))] bg-[hsl(var(--color-secondary)/0.45)] p-4">
+                      <span className="grid h-8 w-8 place-items-center rounded-xl bg-[hsl(var(--color-primary))] text-xs font-bold text-white">{index + 1}</span>
+                      <span>
+                        <span className="block font-semibold text-[hsl(var(--color-foreground))]">{name}</span>
+                        <span className="block text-xs text-[hsl(var(--color-muted-foreground))]">{meta}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="py-16" aria-label="Statistics">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-[hsl(var(--color-border))]">
-              <div className="p-4">
-                <div className="text-3xl lg:text-4xl font-bold text-gradient mb-1">
-                  {allTools.length}+
-                </div>
-                <div className="text-xs font-medium text-[hsl(var(--color-muted-foreground))] uppercase tracking-wider">
-                  {t('home.stats.pdfTools')}
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="text-3xl lg:text-4xl font-bold text-gradient mb-1">
-                  100%
-                </div>
-                <div className="text-xs font-medium text-[hsl(var(--color-muted-foreground))] uppercase tracking-wider">
-                  {t('home.stats.freeToUse')}
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="text-3xl lg:text-4xl font-bold text-gradient mb-1">
-                  9
-                </div>
-                <div className="text-xs font-medium text-[hsl(var(--color-muted-foreground))] uppercase tracking-wider">
-                  {t('home.stats.languages')}
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="text-3xl lg:text-4xl font-bold text-gradient mb-1">
-                  0
-                </div>
-                <div className="text-xs font-medium text-[hsl(var(--color-muted-foreground))] uppercase tracking-wider">
-                  {t('home.stats.filesUploaded')}
-                </div>
-              </div>
-            </div>
+        <section className="container mx-auto px-4 py-24" aria-labelledby="features-title">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 id="features-title" className="text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-4xl">
+              A SaaS-grade interface for a powerful PDF engine
+            </h2>
+            <p className="mt-3 text-[hsl(var(--color-muted-foreground))]">
+              The visual layer is refreshed while core PDF utilities remain untouched.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={feature.title} className="rounded-3xl border-[hsl(var(--color-border))] p-6 transition hover:border-[hsl(var(--color-primary)/0.45)]" hover={false}>
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-[hsl(var(--color-primary))]">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-5 text-lg font-bold text-[hsl(var(--color-foreground))]">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--color-muted-foreground))]">{feature.description}</p>
+                </Card>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="container mx-auto px-4 pb-24" aria-labelledby="privacy-title">
+          <div className="rounded-[2rem] border border-[hsl(var(--color-border))] bg-gradient-to-br from-[hsl(var(--color-primary-soft))] via-[hsl(var(--color-card))] to-[hsl(var(--color-accent-soft))] p-10 text-center shadow-[var(--shadow-soft)] md:p-16">
+            <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[hsl(var(--color-card))] shadow-[var(--shadow-soft)]">
+              <ShieldCheck className="h-7 w-7 text-[hsl(var(--color-primary))]" aria-hidden="true" />
+            </span>
+            <h2 id="privacy-title" className="mt-6 text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-4xl">
+              Privacy-aware PDF processing, modernized
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[hsl(var(--color-muted-foreground))]">
+              The new design keeps PDFto aligned with the original PDFCraft privacy model while preparing the interface for future self-hosted and AI-assisted workflows.
+            </p>
           </div>
         </section>
       </main>

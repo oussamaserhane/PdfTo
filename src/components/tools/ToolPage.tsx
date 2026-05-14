@@ -1,126 +1,117 @@
 'use client';
 
+import { useMemo } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Clock, Home, ShieldCheck, Sparkles } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Tool, ToolContent, HowToStep, UseCase, FAQ, ToolCategory } from '@/types/tool';
-import { Card } from '@/components/ui/Card';
-import { getToolById } from '@/config/tools';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { type Locale } from '@/lib/i18n/config';
-import { ToolProvider } from '@/lib/contexts/ToolContext';
-import { getToolIcon } from '@/config/icons';
-import Link from 'next/link';
-import { Home, ChevronRight } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
-import { useMemo } from 'react';
+import { getToolById } from '@/config/tools';
+import { getToolIcon } from '@/config/icons';
+import { ToolProvider } from '@/lib/contexts/ToolContext';
 import { sanitizeHtml } from '@/lib/utils/html-sanitizer';
+import { type Locale } from '@/lib/i18n/config';
+import { type FAQ, type HowToStep, type Tool, type ToolCategory, type ToolContent, type UseCase } from '@/types/tool';
 
 export interface ToolPageProps {
-  /** Tool data */
   tool: Tool;
-  /** Tool content for SEO and documentation */
   content: ToolContent;
-  /** Current locale */
   locale: string;
-  /** Children for the tool interface area */
   children?: React.ReactNode;
-  /** Localized content for related tools */
   localizedRelatedTools?: Record<string, { title: string; description: string }>;
 }
 
-const categoryTranslationKeys: Record<ToolCategory, string> = {
-  'edit-annotate': 'editAnnotate',
-  'convert-to-pdf': 'convertToPdf',
-  'convert-from-pdf': 'convertFromPdf',
-  'organize-manage': 'organizeManage',
-  'optimize-repair': 'optimizeRepair',
-  'secure-pdf': 'securePdf',
+const categoryLabels: Record<ToolCategory, string> = {
+  'edit-annotate': 'Edit',
+  'convert-to-pdf': 'Convert to PDF',
+  'convert-from-pdf': 'Convert from PDF',
+  'organize-manage': 'Organize',
+  'optimize-repair': 'Optimize',
+  'secure-pdf': 'Secure',
 };
 
-/**
- * ToolPage layout component provides the structure for individual tool pages.
- * Includes tool interface, description, how-to, use cases, FAQ, and related tools.
- */
 export function ToolPage({ tool, content, locale, children, localizedRelatedTools = {} }: ToolPageProps) {
-  // Get related tools data
   const relatedTools = tool.relatedTools
-    .map(id => getToolById(id))
-    .filter((t): t is Tool => t !== undefined);
+    .map((id) => getToolById(id))
+    .filter((related): related is Tool => related !== undefined);
 
-  const t = useTranslations();
-
-  // Get tool display name
-  const toolDisplayName = content.title || tool.id
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  const toolDisplayName = content.title || toTitle(tool.id);
+  const categoryName = categoryLabels[tool.category] || tool.category;
+  const Icon = getToolIcon(tool.icon);
 
   return (
     <ToolProvider toolSlug={tool.slug} toolName={toolDisplayName}>
-      <div className="min-h-screen flex flex-col" data-testid="tool-page">
+      <div className="min-h-screen bg-[hsl(var(--color-background))]" data-testid="tool-page">
         <Header locale={locale as Locale} />
 
         <main id="main-content" className="flex-1" tabIndex={-1}>
-          <div className="max-w-7xl mx-auto px-4 pt-24 pb-8">
-            {/* Breadcrumb Navigation */}
-            <nav aria-label="Breadcrumb" className="mb-4 flex items-center text-sm text-[hsl(var(--color-muted-foreground))] animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
-              <Link
-                href={`/${locale}`}
-                className="flex items-center hover:text-[hsl(var(--color-primary))] transition-colors"
-                title={t('common.navigation.home')}
-              >
-                <Home className="w-4 h-4" />
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
-              <Link
-                href={`/${locale}/tools`}
-                className="hover:text-[hsl(var(--color-primary))] transition-colors"
-              >
-                {t('common.navigation.tools')}
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
-              <Link
-                href={`/${locale}/tools/category/${tool.category}`}
-                className="hover:text-[hsl(var(--color-primary))] transition-colors"
-              >
-                {t(`home.categories.${categoryTranslationKeys[tool.category]}`)}
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2 text-[hsl(var(--color-border))]" />
-              <span className="font-medium text-[hsl(var(--color-foreground))] truncate max-w-[200px] sm:max-w-md" aria-current="page">
-                {content.title || toolDisplayName}
-              </span>
-            </nav>
+          <section className="relative overflow-hidden border-b border-[hsl(var(--color-border))] bg-hero-gradient pt-32 pb-10" aria-labelledby="tool-title">
+            <div className="absolute inset-0 bg-grid opacity-35" />
+            <div className="container relative mx-auto px-4">
+              <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[hsl(var(--color-muted-foreground))]">
+                <Link href={`/${locale}`} className="inline-flex items-center gap-1 transition hover:text-[hsl(var(--color-primary))]">
+                  <Home className="h-4 w-4" aria-hidden="true" /> Home
+                </Link>
+                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" />
+                <Link href={`/${locale}/tools`} className="transition hover:text-[hsl(var(--color-primary))]">Tools</Link>
+                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" />
+                <span className="font-medium text-[hsl(var(--color-foreground))]" aria-current="page">{toolDisplayName}</span>
+              </nav>
 
-            {/* Tool Header */}
-            <ToolHeader tool={tool} content={content} />
+              <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+                <div className="flex items-start gap-5">
+                  <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white shadow-[var(--shadow-glow)]">
+                    <Icon className="h-8 w-8" aria-hidden="true" />
+                  </span>
+                  <div>
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-[hsl(var(--color-primary-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--color-primary))]">{categoryName}</span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.8)] px-3 py-1 text-xs font-medium text-[hsl(var(--color-muted-foreground))]">
+                        <ShieldCheck className="h-3.5 w-3.5" /> Browser-first
+                      </span>
+                    </div>
+                    <h1 id="tool-title" className="text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-5xl" itemProp="name">
+                      {toolDisplayName}
+                    </h1>
+                    <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[hsl(var(--color-muted-foreground))]" itemProp="description">
+                      {content.metaDescription}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-[hsl(var(--color-muted-foreground))]">
+                      <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> Usually finishes in seconds</span>
+                      <span className="inline-flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-[hsl(var(--color-accent))]" /> Works with PDFto visual shell</span>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Tool Interface Area */}
-            <section
-              className="mt-6"
-              data-testid="tool-page-interface"
-              aria-label="Tool interface"
-            >
+                <FavoriteButton toolId={tool.id} size="lg" showLabel />
+              </div>
+            </div>
+          </section>
+
+          <section className="container mx-auto px-4 py-10" aria-label="Tool interface">
+            <div className="mb-6 flex flex-wrap items-center gap-3 text-sm">
+              {['Upload', 'Configure', 'Process & download'].map((step, index) => (
+                <div key={step} className="flex items-center gap-2">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[hsl(var(--color-primary))] text-xs font-bold text-white">{index + 1}</span>
+                  <span className="font-medium text-[hsl(var(--color-foreground))]">{step}</span>
+                  {index < 2 && <span className="h-px w-8 bg-[hsl(var(--color-border))]" />}
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-[2rem] border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] p-4 shadow-[var(--shadow-soft)] sm:p-6">
               {children}
-            </section>
+            </div>
+          </section>
 
-            {/* Description Section */}
+          <div className="container mx-auto px-4 pb-16">
             <DescriptionSection description={content.description} />
-
-            {/* How to Use Section */}
             <HowToUseSection steps={content.howToUse} />
-
-            {/* Use Cases Section */}
             <UseCasesSection useCases={content.useCases} />
-
-            {/* FAQ Section */}
             <FAQSection faq={content.faq} />
-
-            {/* Related Tools Section */}
-            <RelatedToolsSection
-              tools={relatedTools}
-              locale={locale}
-              localizedRelatedTools={localizedRelatedTools}
-            />
+            <RelatedToolsSection tools={relatedTools} locale={locale} localizedRelatedTools={localizedRelatedTools} />
           </div>
         </main>
 
@@ -130,141 +121,34 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
   );
 }
 
-/**
- * Tool header with icon, name, and brief description
- */
-interface ToolHeaderProps {
-  tool: Tool;
-  content: ToolContent;
-}
-
-function ToolHeader({ tool, content }: ToolHeaderProps) {
-  const toolName = tool.id
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-
-  const IconComponent = getToolIcon(tool.icon);
-
-  return (
-    <header className="text-center" data-testid="tool-page-header" itemScope itemType="https://schema.org/SoftwareApplication">
-      <meta itemProp="applicationCategory" content="UtilitiesApplication" />
-      <meta itemProp="operatingSystem" content="Web Browser" />
-      <meta itemProp="offers" itemScope itemType="https://schema.org/Offer" content="" />
-      <meta itemProp="price" content="0" />
-      <meta itemProp="priceCurrency" content="USD" />
-      <div
-        className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[hsl(var(--color-primary)/0.1)] to-[hsl(var(--color-accent)/0.1)] mb-4 shadow-inner"
-        aria-hidden="true"
-      >
-        <IconComponent className="w-8 h-8 text-[hsl(var(--color-primary))]" />
-      </div>
-      <h1
-        className="text-3xl font-bold text-[hsl(var(--color-foreground))] mb-2"
-        data-testid="tool-page-title"
-        itemProp="name"
-      >
-        {content.title || toolName}
-      </h1>
-      <p
-        className="text-lg text-[hsl(var(--color-muted-foreground))] max-w-2xl mx-auto leading-relaxed mb-4"
-        data-testid="tool-page-subtitle"
-        itemProp="description"
-      >
-        {content.metaDescription}
-      </p>
-      <div className="flex items-center justify-center">
-        <FavoriteButton toolId={tool.id} size="lg" showLabel />
-      </div>
-    </header>
-  );
-}
-
-/**
- * Description section with detailed tool information
- */
-interface DescriptionSectionProps {
-  description: string;
-}
-
-function DescriptionSection({ description }: DescriptionSectionProps) {
-  const t = useTranslations();
+function DescriptionSection({ description }: { description: string }) {
   const sanitizedDescription = useMemo(() => sanitizeHtml(description), [description]);
   if (!description) return null;
 
   return (
-    <section
-      className="mt-10"
-      data-testid="tool-page-description"
-      aria-labelledby="description-heading"
-    >
-      <h2
-        id="description-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
-      >
-        {t('tools.about')}
-      </h2>
-      <Card variant="outlined" size="lg" className="glass-card">
-        <div
-          className="prose prose-sm max-w-none text-[hsl(var(--color-foreground))/0.8]"
-          dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-        />
+    <section className="mt-10" aria-labelledby="description-heading">
+      <h2 id="description-heading" className="mb-5 text-2xl font-bold text-[hsl(var(--color-foreground))]">About this tool</h2>
+      <Card variant="outlined" size="lg" className="glass-card rounded-3xl" hover={false}>
+        <div className="prose prose-sm max-w-none text-[hsl(var(--color-foreground))]/85" dangerouslySetInnerHTML={{ __html: sanitizedDescription }} />
       </Card>
     </section>
   );
 }
 
-/**
- * How to use section with numbered steps
- */
-interface HowToUseSectionProps {
-  steps: HowToStep[];
-}
-
-function HowToUseSection({ steps }: HowToUseSectionProps) {
-  const t = useTranslations();
+function HowToUseSection({ steps }: { steps: HowToStep[] }) {
   if (!steps || steps.length === 0) return null;
 
   return (
-    <section
-      className="mt-10"
-      data-testid="tool-page-how-to-use"
-      aria-labelledby="how-to-use-heading"
-      itemScope
-      itemType="https://schema.org/HowTo"
-    >
-      <h2
-        id="how-to-use-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
-        itemProp="name"
-      >
-        {t('tools.howToUse')}
-      </h2>
-      <ol className="grid gap-6 md:grid-cols-3" data-testid="how-to-use-steps">
+    <section className="mt-10" aria-labelledby="how-to-heading" itemScope itemType="https://schema.org/HowTo">
+      <h2 id="how-to-heading" className="mb-5 text-2xl font-bold text-[hsl(var(--color-foreground))]" itemProp="name">How to use it</h2>
+      <ol className="grid gap-5 md:grid-cols-3">
         {steps.map((step) => (
-          <li
-            key={step.step}
-            className="flex flex-col h-full"
-            data-testid={`how-to-step-${step.step}`}
-            id={`step-${step.step}`}
-            itemScope
-            itemProp="step"
-            itemType="https://schema.org/HowToStep"
-          >
-            <meta itemProp="position" content={String(step.step)} />
-            <Card className="flex-1 h-full glass-card border-[hsl(var(--color-border))/0.6] hover:border-[hsl(var(--color-primary)/0.3)] transition-colors">
-              <div
-                className="w-10 h-10 rounded-xl bg-[hsl(var(--color-primary)/0.1)] text-[hsl(var(--color-primary))] flex items-center justify-center font-bold text-lg mb-4"
-                aria-hidden="true"
-              >
-                {step.step}
-              </div>
-              <h3 className="text-lg font-semibold text-[hsl(var(--color-foreground))] mb-2" itemProp="name">
-                {step.title}
-              </h3>
-              <p className="text-sm text-[hsl(var(--color-muted-foreground))]" itemProp="text">
-                {step.description}
-              </p>
+          <li key={step.step} itemScope itemProp="step" itemType="https://schema.org/HowToStep">
+            <Card className="h-full rounded-3xl border-[hsl(var(--color-border))] p-6" hover={false}>
+              <meta itemProp="position" content={String(step.step)} />
+              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-lg font-bold text-[hsl(var(--color-primary))]">{step.step}</span>
+              <h3 className="mt-4 text-lg font-bold text-[hsl(var(--color-foreground))]" itemProp="name">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--color-muted-foreground))]" itemProp="text">{step.description}</p>
             </Card>
           </li>
         ))}
@@ -273,59 +157,17 @@ function HowToUseSection({ steps }: HowToUseSectionProps) {
   );
 }
 
-/**
- * Use cases section with practical scenarios
- */
-interface UseCasesSectionProps {
-  useCases: UseCase[];
-}
-
-function UseCasesSection({ useCases }: UseCasesSectionProps) {
-  const t = useTranslations();
+function UseCasesSection({ useCases }: { useCases: UseCase[] }) {
   if (!useCases || useCases.length === 0) return null;
 
   return (
-    <section
-      className="mt-10"
-      data-testid="tool-page-use-cases"
-      aria-labelledby="use-cases-heading"
-    >
-      <h2
-        id="use-cases-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
-      >
-        {t('tools.useCases')}
-      </h2>
-      <div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        data-testid="use-cases-grid"
-      >
+    <section className="mt-10" aria-labelledby="use-cases-heading">
+      <h2 id="use-cases-heading" className="mb-5 text-2xl font-bold text-[hsl(var(--color-foreground))]">Common use cases</h2>
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {useCases.map((useCase, index) => (
-          <Card
-            key={index}
-            variant="default"
-            className="glass-card hover:shadow-lg transition-all duration-300"
-            data-testid={`use-case-${index}`}
-          >
-            <div className="flex items-start gap-4">
-              <div
-                className="flex-shrink-0 w-12 h-12 rounded-xl bg-[hsl(var(--color-secondary)/0.5)] flex items-center justify-center"
-                aria-hidden="true"
-              >
-                {/* We can map icons here too if needed, for now using a generic check */}
-                <div className="w-6 h-6 text-[hsl(var(--color-secondary-foreground))] flex items-center justify-center">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-[hsl(var(--color-foreground))] mb-1">
-                  {useCase.title}
-                </h3>
-                <p className="text-sm text-[hsl(var(--color-muted-foreground))]">
-                  {useCase.description}
-                </p>
-              </div>
-            </div>
+          <Card key={`${useCase.title}-${index}`} className="glass-card rounded-3xl p-6" hover={false}>
+            <h3 className="font-bold text-[hsl(var(--color-foreground))]">{useCase.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--color-muted-foreground))]">{useCase.description}</p>
           </Card>
         ))}
       </div>
@@ -333,49 +175,18 @@ function UseCasesSection({ useCases }: UseCasesSectionProps) {
   );
 }
 
-/**
- * FAQ section with common questions and answers
- */
-interface FAQSectionProps {
-  faq: FAQ[];
-}
-
-function FAQSection({ faq }: FAQSectionProps) {
-  const t = useTranslations();
+function FAQSection({ faq }: { faq: FAQ[] }) {
   if (!faq || faq.length === 0) return null;
 
   return (
-    <section
-      className="mt-10"
-      data-testid="tool-page-faq"
-      aria-labelledby="faq-heading"
-      itemScope
-      itemType="https://schema.org/FAQPage"
-    >
-      <h2
-        id="faq-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
-      >
-        {t('tools.faq')}
-      </h2>
-      <div className="space-y-4" data-testid="faq-list">
+    <section className="mt-10" aria-labelledby="faq-heading" itemScope itemType="https://schema.org/FAQPage">
+      <h2 id="faq-heading" className="mb-5 text-2xl font-bold text-[hsl(var(--color-foreground))]">FAQ</h2>
+      <div className="space-y-4">
         {faq.map((item, index) => (
-          <Card
-            key={index}
-            variant="outlined"
-            className="glass-card"
-            data-testid={`faq-item-${index}`}
-            itemScope
-            itemProp="mainEntity"
-            itemType="https://schema.org/Question"
-          >
-            <h3 className="font-semibold text-[hsl(var(--color-foreground))]" itemProp="name">
-              {item.question}
-            </h3>
+          <Card key={`${item.question}-${index}`} variant="outlined" className="rounded-3xl p-6" hover={false} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <h3 className="font-bold text-[hsl(var(--color-foreground))]" itemProp="name">{item.question}</h3>
             <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-              <p className="mt-2 text-sm text-[hsl(var(--color-muted-foreground))]" itemProp="text">
-                {item.answer}
-              </p>
+              <p className="mt-2 text-sm leading-relaxed text-[hsl(var(--color-muted-foreground))]" itemProp="text">{item.answer}</p>
             </div>
           </Card>
         ))}
@@ -384,75 +195,53 @@ function FAQSection({ faq }: FAQSectionProps) {
   );
 }
 
-/**
- * Related tools section
- */
-interface RelatedToolsSectionProps {
+function RelatedToolsSection({
+  tools,
+  locale,
+  localizedRelatedTools,
+}: {
   tools: Tool[];
   locale: string;
   localizedRelatedTools: Record<string, { title: string; description: string }>;
-}
-
-function RelatedToolsSection({ tools, locale, localizedRelatedTools }: RelatedToolsSectionProps) {
+}) {
   const t = useTranslations();
   if (!tools || tools.length === 0) return null;
 
   return (
-    <section
-      className="mt-10"
-      data-testid="tool-page-related-tools"
-      aria-labelledby="related-tools-heading"
-    >
-      <h2
-        id="related-tools-heading"
-        className="text-2xl font-bold text-[hsl(var(--color-foreground))] mb-6"
-      >
-        {t('tools.relatedTools')}
-      </h2>
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        data-testid="related-tools-grid"
-      >
-        {tools.map(tool => {
+    <section className="mt-10" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading" className="mb-5 text-2xl font-bold text-[hsl(var(--color-foreground))]">Related tools</h2>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {tools.map((tool) => {
           const localized = localizedRelatedTools[tool.id];
-          const toolName = localized?.title || tool.id
-            .split('-')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-
-          const IconComponent = getToolIcon(tool.icon);
-          const categoryName = t(`home.categories.${categoryTranslationKeys[tool.category]}`);
+          const Icon = getToolIcon(tool.icon);
+          const categoryLabel = categoryLabels[tool.category] ?? t(`home.categories.${tool.category}`);
 
           return (
-            <a
-              key={tool.id}
-              href={`/${locale}/tools/${tool.slug}`}
-              className="block group"
-            >
-              <Card hover clickable className="h-full glass-card transition-all duration-300 group-hover:-translate-y-1">
+            <Link key={tool.id} href={`/${locale}/tools/${tool.slug}`} className="group block">
+              <Card className="h-full rounded-3xl p-5 transition group-hover:-translate-y-1 group-hover:border-[hsl(var(--color-primary)/0.45)]" hover={false}>
                 <div className="flex items-center gap-4">
-                  <div
-                    className="flex-shrink-0 w-12 h-12 rounded-xl bg-[hsl(var(--color-primary)/0.1)] flex items-center justify-center group-hover:bg-[hsl(var(--color-primary))] transition-colors duration-300"
-                    aria-hidden="true"
-                  >
-                    <IconComponent className="w-6 h-6 text-[hsl(var(--color-primary))] group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <div>
-                    <span className="font-semibold text-[hsl(var(--color-foreground))] block mb-1">
-                      {toolName}
-                    </span>
-                    <span className="text-xs text-[hsl(var(--color-muted-foreground))]">
-                      {categoryName}
-                    </span>
-                  </div>
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-[hsl(var(--color-primary))] transition group-hover:bg-[hsl(var(--color-primary))] group-hover:text-white">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate font-bold text-[hsl(var(--color-foreground))]">{localized?.title ?? toTitle(tool.id)}</span>
+                    <span className="block truncate text-xs text-[hsl(var(--color-muted-foreground))]">{categoryLabel}</span>
+                  </span>
                 </div>
               </Card>
-            </a>
+            </Link>
           );
         })}
       </div>
     </section>
   );
+}
+
+function toTitle(value: string) {
+  return value
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 export default ToolPage;
