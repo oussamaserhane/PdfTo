@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FileStack, Github, Menu, Search, Sparkles, X } from 'lucide-react';
+import { FileStack, Menu, Search, Sparkles, X } from 'lucide-react';
 import { type Locale } from '@/lib/i18n/config';
 import { brand } from '@/config/brand';
 import { Button } from '@/components/ui/Button';
@@ -116,16 +116,16 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
   const navItems = [
     { href: `/${locale}`, label: 'Home' },
     { href: `/${locale}/tools`, label: 'Tools' },
+    { href: `/${locale}/pricing`, label: 'Pricing' },
     { href: `/${locale}/workflow`, label: 'Workflow' },
     { href: `/${locale}/about`, label: 'About' },
-    { href: `/${locale}/faq`, label: 'FAQ' },
   ];
 
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? 'border-b border-[hsl(var(--color-border)/0.7)] bg-[hsl(var(--color-background)/0.82)] shadow-sm backdrop-blur-xl'
+          ? 'border-b border-[hsl(var(--color-border)/0.72)] bg-[hsl(var(--color-background)/0.78)] shadow-sm backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent'
       }`}
       role="banner"
@@ -137,8 +137,9 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
             className="group flex items-center gap-2.5 font-bold text-[hsl(var(--color-foreground))] transition-opacity hover:opacity-90"
             aria-label={`${brand.name} home`}
           >
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white shadow-[var(--shadow-glow)] transition-transform group-hover:scale-105">
-              <FileStack className="h-5 w-5" aria-hidden="true" />
+            <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-[hsl(var(--color-primary))] via-[hsl(var(--color-accent))] to-[hsl(var(--color-signal))] text-white shadow-[var(--shadow-glow)] transition-transform group-hover:scale-105">
+              <span className="absolute inset-0 bg-white/15 opacity-0 transition group-hover:opacity-100" />
+              <FileStack className="relative h-5 w-5" aria-hidden="true" />
             </span>
             <span className="text-xl tracking-tight">
               PDF<span className="text-gradient-brand">to</span>
@@ -146,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
           </Link>
 
           <nav
-            className="hidden items-center gap-1 rounded-full border border-[hsl(var(--color-border)/0.65)] bg-[hsl(var(--color-background)/0.65)] p-1.5 shadow-sm backdrop-blur md:flex"
+            className="hidden items-center gap-1 rounded-full border border-[hsl(var(--color-border)/0.68)] bg-[hsl(var(--color-background)/0.62)] p-1.5 shadow-sm backdrop-blur md:flex"
             aria-label="Main navigation"
           >
             {navItems.map((item) => (
@@ -240,16 +241,16 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
                 processedWith: 'Processed with',
               }}
             />
-            <a
-              href="https://github.com/oussamaserhane/PdfTo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden h-9 w-9 items-center justify-center rounded-xl text-[hsl(var(--color-muted-foreground))] transition-all hover:bg-[hsl(var(--color-muted))] hover:text-[hsl(var(--color-foreground))] sm:flex"
-              aria-label="GitHub repository"
-            >
-              <Github className="h-5 w-5" aria-hidden="true" />
-            </a>
+
             <ThemeToggle />
+
+            <Link href={`/${locale}/login`} className="hidden rounded-full px-4 py-2 text-sm font-semibold text-[hsl(var(--color-muted-foreground))] transition hover:bg-[hsl(var(--color-muted))] hover:text-[hsl(var(--color-foreground))] lg:inline-flex">
+              Sign in
+            </Link>
+            <Link href={`/${locale}/signup`} className="hidden rounded-full bg-[hsl(var(--color-primary))] px-4 py-2 text-sm font-semibold text-white shadow-[var(--shadow-glow)] transition hover:-translate-y-0.5 lg:inline-flex">
+              Start free
+            </Link>
+
             <div id="language-selector-slot" />
             <Button
               variant="ghost"
@@ -278,13 +279,20 @@ export const Header: React.FC<HeaderProps> = ({ locale, showSearch = true }) => 
                   </Link>
                 </li>
               ))}
-              <li>
+              <li className="grid grid-cols-2 gap-2 pt-2">
                 <Link
-                  href={`/${locale}/tools`}
+                  href={`/${locale}/login`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--color-primary))] px-4 py-3 text-sm font-semibold text-white shadow-[var(--shadow-glow)]"
+                  className="flex items-center justify-center rounded-xl border border-[hsl(var(--color-border))] px-4 py-3 text-sm font-semibold text-[hsl(var(--color-foreground))]"
                 >
-                  <Sparkles className="h-4 w-4" /> Start with a PDF
+                  Sign in
+                </Link>
+                <Link
+                  href={`/${locale}/signup`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-[hsl(var(--color-primary))] px-4 py-3 text-sm font-semibold text-white shadow-[var(--shadow-glow)]"
+                >
+                  <Sparkles className="h-4 w-4" /> Start free
                 </Link>
               </li>
             </ul>
