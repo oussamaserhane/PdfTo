@@ -6,6 +6,9 @@ import { Tool, ToolCategory } from '@/types/tool';
 import { Card } from '@/components/ui/Card';
 import { ArrowUpRight } from 'lucide-react';
 import { getToolIcon } from '@/config/icons';
+
+import { getToolHoverIcon } from '@/config/tool-hover-icons';
+
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
 
 export interface ToolCardProps {
@@ -50,7 +53,7 @@ export function ToolCard({ tool, locale, className = '', localizedContent }: Too
     .map(f => f.replace(/-/g, ' '))
     .join(', ');
 
-  const IconComponent = getToolIcon(tool.icon);
+  const IconComponent = getToolHoverIcon(tool.icon);
 
   const categoryName = t(`home.categories.${categoryTranslationKeys[tool.category]}`);
 
@@ -79,7 +82,15 @@ export function ToolCard({ tool, locale, className = '', localizedContent }: Too
               data-testid="tool-card-icon"
               aria-hidden="true"
             >
-              <IconComponent className="w-7 h-7 text-[hsl(var(--color-primary))]" />
+
+              <IconComponent
+                size={28}
+                color="currentColor"
+                strokeWidth={2}
+                className="h-7 w-7 text-[hsl(var(--color-primary))]"
+              />
+              
+
             </div>
           </div>
 
