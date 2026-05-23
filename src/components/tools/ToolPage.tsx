@@ -9,7 +9,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Card } from '@/components/ui/Card';
 import { FavoriteButton } from '@/components/ui/FavoriteButton';
 import { getToolById } from '@/config/tools';
-import { getToolIcon } from '@/config/icons';
+import { getToolHoverIcon } from '@/config/tool-hover-icons';
 import { ToolProvider } from '@/lib/contexts/ToolContext';
 import { sanitizeHtml } from '@/lib/utils/html-sanitizer';
 import { type Locale } from '@/lib/i18n/config';
@@ -39,7 +39,7 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
 
   const toolDisplayName = content.title || toTitle(tool.id);
   const categoryName = categoryLabels[tool.category] || tool.category;
-  const Icon = getToolIcon(tool.icon);
+  const Icon = getToolHoverIcon(tool.icon);
 
   return (
     <ToolProvider toolSlug={tool.slug} toolName={toolDisplayName}>
@@ -63,7 +63,13 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
                 <div className="flex items-start gap-5">
                   <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white shadow-[var(--shadow-glow)]">
-                    <Icon className="h-8 w-8" aria-hidden="true" />
+                  <Icon
+                      size={32}
+                      color="currentColor"
+                      strokeWidth={2}
+                      className="h-8 w-8"
+                      aria-hidden="true"
+                    />
                   </span>
                   <div>
                     <div className="mb-3 flex flex-wrap items-center gap-2">

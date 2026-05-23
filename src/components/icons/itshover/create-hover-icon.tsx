@@ -41,17 +41,18 @@ export function createHoverIcon(BaseIcon: LucideIcon, displayName: string) {
       }));
 
       return (
-        <motion.span
-          animate={controls}
-          onHoverStart={startAnimation}
-          onHoverEnd={stopAnimation}
-          className={`inline-flex items-center justify-center ${className}`}
-          style={{
-            width: size,
-            height: size,
-            color,
-          }}
-        >
+<motion.span
+  animate={controls}
+  onHoverStart={startAnimation}
+  onHoverEnd={stopAnimation}
+  className={`items-center justify-center ${className}`}
+  style={{
+    width: size,
+    height: size,
+    color,
+    display: 'inline-flex',
+  }}
+>
           <BaseIcon
             width={size}
             height={size}

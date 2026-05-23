@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { Tool, ToolCategory } from '@/types/tool';
 import { Card } from '@/components/ui/Card';
 import { ArrowUpRight } from 'lucide-react';
-import { getToolIcon } from '@/config/icons';
 
 import { getToolHoverIcon } from '@/config/tool-hover-icons';
 
@@ -82,12 +81,11 @@ export function ToolCard({ tool, locale, className = '', localizedContent }: Too
               data-testid="tool-card-icon"
               aria-hidden="true"
             >
-
               <IconComponent
                 size={28}
-                color="currentColor"
+                color="hsl(var(--color-primary))"
                 strokeWidth={2}
-                className="h-7 w-7 text-[hsl(var(--color-primary))]"
+                className="h-7 w-7"
               />
               
 
