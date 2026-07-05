@@ -1,73 +1,73 @@
-// PDFCraft Chrome Extension - Background Service Worker
+// PDFto Chrome Extension - Background Service Worker
 
-const PDFCRAFT_URL = 'https://pdfcraft.devtoolcafe.com/en';
+const PDFto_URL = 'https://PDFto.devtoolcafe.com/en';
 
 // Create context menu when extension is installed
 chrome.runtime.onInstalled.addListener(() => {
     // Create main context menu item
     chrome.contextMenus.create({
-        id: 'pdfcraft-open',
-        title: 'Open with PDFCraft',
+        id: 'PDFto-open',
+        title: 'Open with PDFto',
         contexts: ['link', 'page']
     });
 
     // Create submenu for specific tools
     chrome.contextMenus.create({
-        id: 'pdfcraft-merge',
-        parentId: 'pdfcraft-open',
+        id: 'PDFto-merge',
+        parentId: 'PDFto-open',
         title: 'Merge PDFs',
         contexts: ['link', 'page']
     });
 
     chrome.contextMenus.create({
-        id: 'pdfcraft-compress',
-        parentId: 'pdfcraft-open',
+        id: 'PDFto-compress',
+        parentId: 'PDFto-open',
         title: 'Compress PDF',
         contexts: ['link', 'page']
     });
 
     chrome.contextMenus.create({
-        id: 'pdfcraft-convert',
-        parentId: 'pdfcraft-open',
+        id: 'PDFto-convert',
+        parentId: 'PDFto-open',
         title: 'Convert to PDF',
         contexts: ['link', 'page']
     });
 
     chrome.contextMenus.create({
-        id: 'pdfcraft-all-tools',
-        parentId: 'pdfcraft-open',
+        id: 'PDFto-all-tools',
+        parentId: 'PDFto-open',
         title: 'All Tools →',
         contexts: ['link', 'page']
     });
 
-    console.log('PDFCraft context menus created');
+    console.log('PDFto context menus created');
 });
 
 // Handle context menu clicks
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    let url = PDFCRAFT_URL;
+    let url = PDFto_URL;
 
     switch (info.menuItemId) {
-        case 'pdfcraft-merge':
-            url = `${PDFCRAFT_URL}/tools/merge-pdf`;
+        case 'PDFto-merge':
+            url = `${PDFto_URL}/tools/merge-pdf`;
             break;
-        case 'pdfcraft-compress':
-            url = `${PDFCRAFT_URL}/tools/compress-pdf`;
+        case 'PDFto-compress':
+            url = `${PDFto_URL}/tools/compress-pdf`;
             break;
-        case 'pdfcraft-convert':
-            url = `${PDFCRAFT_URL}/tools/jpg-to-pdf`;
+        case 'PDFto-convert':
+            url = `${PDFto_URL}/tools/jpg-to-pdf`;
             break;
-        case 'pdfcraft-all-tools':
-        case 'pdfcraft-open':
-            url = PDFCRAFT_URL;
+        case 'PDFto-all-tools':
+        case 'PDFto-open':
+            url = PDFto_URL;
             break;
         default:
-            url = PDFCRAFT_URL;
+            url = PDFto_URL;
     }
 
-    // Open PDFCraft in a new tab
+    // Open PDFto in a new tab
     chrome.tabs.create({ url: url });
 });
 
 // Log when service worker starts
-console.log('PDFCraft background service worker started');
+console.log('PDFto background service worker started');

@@ -38,7 +38,7 @@ const CJK_FONT_URL = 'https://raw.githack.com/googlefonts/noto-cjk/main/Sans/OTF
 
 // Font cache
 const fontCache: Map<string, ArrayBuffer> = new Map();
-const DB_NAME = 'pdfcraft-fonts';
+const DB_NAME = 'PDFto-fonts';
 const DB_VERSION = 1;
 const STORE_NAME = 'fonts';
 

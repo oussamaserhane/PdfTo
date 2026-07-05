@@ -1,8 +1,8 @@
 [package]
-name = "pdfcraft"
+name = "PDFto"
 version = "0.1.0"
-description = "PDFCraft Desktop Application"
-authors = ["PDFCraft"]
+description = "PDFto Desktop Application"
+authors = ["PDFto"]
 edition = "2021"
 
 [build-dependencies]

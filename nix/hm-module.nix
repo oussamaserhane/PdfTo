@@ -1,17 +1,17 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.services.pdfcraft;
+  cfg = config.services.PDFto;
 in
 {
-  options.services.pdfcraft = {
-    enable = lib.mkEnableOption "PDFCraft - Professional PDF Tools";
+  options.services.PDFto = {
+    enable = lib.mkEnableOption "PDFto - Professional PDF Tools";
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.pdfcraft;
-      defaultText = lib.literalExpression "pkgs.pdfcraft";
-      description = "The PDFCraft package to use.";
+      default = pkgs.PDFto;
+      defaultText = lib.literalExpression "pkgs.PDFto";
+      description = "The PDFto package to use.";
     };
 
     port = lib.mkOption {
@@ -24,21 +24,21 @@ in
   config = lib.mkIf cfg.enable {
     nixpkgs.overlays = [
       (final: prev: {
-        pdfcraft = final.callPackage ./package.nix { };
+        PDFto = final.callPackage ./package.nix { };
       })
     ];
 
-    systemd.user.services.pdfcraft = {
+    systemd.user.services.PDFto = {
       Unit = {
-        Description = "PDFCraft PDF Tools";
+        Description = "PDFto PDF Tools";
         After = [ "network.target" ];
       };
 
       Service = {
-        ExecStart = "${cfg.package}/bin/pdfcraft";
+        ExecStart = "${cfg.package}/bin/PDFto";
         Restart = "on-failure";
         Environment = [
-          "PDFCRAFT_PORT=${toString cfg.port}"
+          "PDFto_PORT=${toString cfg.port}"
         ];
       };
 

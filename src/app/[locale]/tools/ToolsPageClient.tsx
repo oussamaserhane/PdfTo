@@ -94,7 +94,7 @@ export default function ToolsPageClient({ locale, localizedToolContent }: ToolsP
                 All <span className="text-gradient-brand">PDF tools</span>
               </h1>
               <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[hsl(var(--color-muted-foreground))]">
-                Browse the existing PdfTo/PDFCraft tools through a cleaner, faster, SaaS-style interface.
+                Browse the existing PdfTo/PDFto tools through a cleaner, faster, SaaS-style interface.
               </p>
 
               <div className="mx-auto mt-9 max-w-2xl">

@@ -37,7 +37,7 @@ type SuggestedRoute = {
   mode: 'tool' | 'workflow';
 };
 
-const proofPoints = ['Upload-first', 'AI-ready routing', 'Real PDFCraft tools'];
+const proofPoints = ['Upload-first', 'AI-ready routing', 'Real PDFto tools'];
 
 const promptExamples = [
   'Compress this PDF for email',
@@ -62,7 +62,7 @@ const features = [
   {
     icon: Layers3,
     title: 'Built on real tool logic',
-    description: 'This UI does not change PDF processing. It keeps the existing PdfTo routes and PDFCraft implementations.',
+    description: 'This UI does not change PDF processing. It keeps the existing PdfTo routes and PDFto implementations.',
   },
   {
     icon: ShieldCheck,
@@ -323,7 +323,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                 Open a tool directly
               </h2>
               <p className="mt-2 max-w-2xl text-[hsl(var(--color-muted-foreground))]">
-                The AI-first command panel is the main entry point, but all existing PdfTo/PDFCraft tools remain available.
+                The AI-first command panel is the main entry point, but all existing PdfTo/PDFto tools remain available.
               </p>
             </div>
             <Link href={`/${locale}/tools`}>
