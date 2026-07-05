@@ -71,7 +71,7 @@ export const Footer: React.FC<FooterProps> = ({ locale }) => {
               <TrustItem
                 icon={<Lock className="h-4 w-4" />}
                 title="Browser-first tools"
-                body="The visual layer keeps the existing PDFCraft processing model intact."
+                body="The visual layer keeps the existing PDFTo processing model intact."
                 tone="accent"
               />
               <TrustItem

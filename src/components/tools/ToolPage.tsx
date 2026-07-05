@@ -219,7 +219,7 @@ function RelatedToolsSection({
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => {
           const localized = localizedRelatedTools[tool.id];
-          const Icon = getToolIcon(tool.icon);
+          const Icon = getToolHoverIcon(tool.icon);
           const categoryLabel = categoryLabels[tool.category] ?? t(`home.categories.${tool.category}`);
 
           return (

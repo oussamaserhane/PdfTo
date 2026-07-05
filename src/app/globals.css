@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* PDFto Aurora Design System — visual layer only. Keeps PdfTo/PDFCraft logic untouched. */
+/* PDFto Aurora Design System — visual layer only. Keeps PdfTo/PDFto logic untouched. */
 :root {
   --color-primary: 263 85% 58%;
   --color-primary-foreground: 0 0% 100%;
