@@ -143,22 +143,18 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
     <div className="min-h-screen bg-[hsl(var(--color-background))]">
       <Header locale={locale} />
 
-      <main className="mx-auto flex w-full max-w-[1800px] gap-5 px-3 py-3 sm:px-4 lg:px-3">
-        <HomeToolsSidebar locale={locale} localizedToolContent={localizedToolContent} />
+      <main className="relative overflow-hidden border-t border-[hsl(var(--color-border)/0.65)] bg-gradient-to-br from-[hsl(var(--color-primary-soft)/0.72)] via-[hsl(var(--color-background))] to-[hsl(var(--color-accent-soft)/0.7)]">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--color-border)/0.28)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--color-border)/0.28)_1px,transparent_1px)] bg-[size:36px_36px] opacity-45" />
+        <div className="pointer-events-none absolute right-8 top-10 h-64 w-64 rounded-full bg-[hsl(var(--color-accent)/0.14)] blur-3xl" />
+        <div className="pointer-events-none absolute bottom-8 left-8 h-72 w-72 rounded-full bg-[hsl(var(--color-primary)/0.12)] blur-3xl" />
 
-        <div className="min-w-0 flex-1">
-          <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[hsl(var(--color-primary-soft))] via-[hsl(var(--color-background))] to-[hsl(var(--color-accent-soft))] px-4 py-10 sm:px-6 lg:min-h-[calc(100vh-7rem)] lg:px-10 lg:py-14">
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--color-border)/0.34)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--color-border)/0.34)_1px,transparent_1px)] bg-[size:36px_36px] opacity-45" />
-            <div className="pointer-events-none absolute right-8 top-10 h-64 w-64 rounded-full bg-[hsl(var(--color-accent)/0.16)] blur-3xl" />
-            <div className="pointer-events-none absolute bottom-8 left-8 h-72 w-72 rounded-full bg-[hsl(var(--color-primary)/0.12)] blur-3xl" />
+        <div className="relative mx-auto flex w-full max-w-[1800px] gap-5 px-3 py-4 sm:px-4 lg:px-4">
+          <HomeToolsSidebar locale={locale} localizedToolContent={localizedToolContent} />
 
-            <div className="relative mx-auto max-w-[1180px]">
+          <div className="min-w-0 flex-1">
+            <section className="relative px-4 py-10 sm:px-6 lg:min-h-[calc(100vh-7rem)] lg:px-10 lg:py-14">
+              <div className="relative mx-auto max-w-[1180px]">
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.82)] px-4 py-2 text-sm font-bold text-[hsl(var(--color-muted-foreground))] shadow-sm backdrop-blur">
-                  <Sparkles className="h-4 w-4 text-[hsl(var(--color-accent))]" aria-hidden="true" />
-                  AI-first PDF workspace
-                </span>
-
                 <h1 className="mx-auto mt-6 max-w-5xl text-balance text-4xl font-black tracking-tight text-[hsl(var(--color-foreground))] sm:text-5xl xl:text-6xl">
                   Upload a PDF.{' '}
                   <span className="bg-gradient-to-r from-[hsl(var(--color-primary))] via-orange-500 to-[hsl(var(--color-accent))] bg-clip-text text-transparent">
@@ -167,7 +163,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
                   what to do.
                 </h1>
 
-                <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[hsl(var(--color-muted-foreground))] sm:text-lg">
+                <p className="mx-auto mt-4 max-w-5xl text-base leading-relaxed text-[hsl(var(--color-muted-foreground))] sm:text-lg">
                   Choose a tool from the left menu, upload a document, or describe your task in natural language.
                 </p>
               </div>
@@ -308,6 +304,7 @@ export default function HomePageClient({ locale, localizedToolContent }: HomePag
             <ToolGrid tools={popularTools} locale={locale} localizedToolContent={localizedToolContent} />
           </section>
         </div>
+      </div>
       </main>
 
       <Footer locale={locale} />
