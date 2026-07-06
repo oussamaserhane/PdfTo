@@ -1,8 +1,18 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Clock, Home, ShieldCheck, Sparkles } from 'lucide-react';
+import {
+  ChevronRight,
+  Clock,
+  Download,
+  Home,
+  MousePointerClick,
+  Settings2,
+  ShieldCheck,
+  Sparkles,
+  UploadCloud,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -32,7 +42,31 @@ const categoryLabels: Record<ToolCategory, string> = {
   'secure-pdf': 'Secure',
 };
 
+const workflowSteps = [
+  {
+    label: 'Upload',
+    helper: 'Add your files',
+    Icon: UploadCloud,
+  },
+  {
+    label: 'Configure',
+    helper: 'Choose options',
+    Icon: Settings2,
+  },
+  {
+    label: 'Process',
+    helper: 'Run securely',
+    Icon: Sparkles,
+  },
+  {
+    label: 'Download',
+    helper: 'Save result',
+    Icon: Download,
+  },
+];
+
 export function ToolPage({ tool, content, locale, children, localizedRelatedTools = {} }: ToolPageProps) {
+  const toolInterfaceRef = useRef<HTMLElement>(null);
   const relatedTools = tool.relatedTools
     .map((id) => getToolById(id))
     .filter((related): related is Tool => related !== undefined);
@@ -41,52 +75,89 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
   const categoryName = categoryLabels[tool.category] || tool.category;
   const Icon = getToolHoverIcon(tool.icon);
 
+  useEffect(() => {
+    const shouldSkipAutoScroll =
+      typeof window === 'undefined' ||
+      window.location.hash ||
+      window.scrollY > 80 ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (shouldSkipAutoScroll) return;
+
+    const timer = window.setTimeout(() => {
+      const target = toolInterfaceRef.current;
+      if (!target) return;
+
+      const top = target.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.10;
+      window.scrollTo({
+        top: Math.max(top, 0),
+        behavior: 'smooth',
+      });
+    }, 650);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
   return (
     <ToolProvider toolSlug={tool.slug} toolName={toolDisplayName}>
       <div className="min-h-screen bg-[hsl(var(--color-background))]" data-testid="tool-page">
         <Header locale={locale as Locale} />
 
         <main id="main-content" className="flex-1" tabIndex={-1}>
-          <section className="relative overflow-hidden border-b border-[hsl(var(--color-border))] bg-hero-gradient pt-32 pb-10" aria-labelledby="tool-title">
+          <section className="relative overflow-hidden border-b border-[hsl(var(--color-border))] bg-hero-gradient pt-28 pb-16 sm:pt-32" aria-labelledby="tool-title">
             <div className="absolute inset-0 bg-grid opacity-35" />
+            <div className="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-[hsl(var(--color-primary)/0.10)] blur-3xl" aria-hidden="true" />
+
             <div className="container relative mx-auto px-4">
               <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-[hsl(var(--color-muted-foreground))]">
                 <Link href={`/${locale}`} className="inline-flex items-center gap-1 transition hover:text-[hsl(var(--color-primary))]">
                   <Home className="h-4 w-4" aria-hidden="true" /> Home
                 </Link>
-                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" />
+                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" aria-hidden="true" />
                 <Link href={`/${locale}/tools`} className="transition hover:text-[hsl(var(--color-primary))]">Tools</Link>
-                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" />
+                <ChevronRight className="h-4 w-4 text-[hsl(var(--color-border))]" aria-hidden="true" />
                 <span className="font-medium text-[hsl(var(--color-foreground))]" aria-current="page">{toolDisplayName}</span>
               </nav>
 
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-                <div className="flex items-start gap-5">
-                  <span className="grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white shadow-[var(--shadow-glow)]">
-                  <Icon
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                  <span className="relative grid h-16 w-16 shrink-0 place-items-center rounded-3xl bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-white shadow-[var(--shadow-glow)]">
+                    <span className="absolute -inset-2 rounded-[2rem] bg-[hsl(var(--color-primary)/0.16)] blur-xl" aria-hidden="true" />
+                    <Icon
                       size={32}
                       color="currentColor"
                       strokeWidth={2}
-                      className="h-8 w-8"
+                      className="relative h-8 w-8"
                       aria-hidden="true"
                     />
                   </span>
+
                   <div>
                     <div className="mb-3 flex flex-wrap items-center gap-2">
                       <span className="rounded-full bg-[hsl(var(--color-primary-soft))] px-3 py-1 text-xs font-semibold text-[hsl(var(--color-primary))]">{categoryName}</span>
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card)/0.8)] px-3 py-1 text-xs font-medium text-[hsl(var(--color-muted-foreground))]">
-                        <ShieldCheck className="h-3.5 w-3.5" /> Browser-first
+                        <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Browser-first
                       </span>
                     </div>
+
                     <h1 id="tool-title" className="text-3xl font-bold tracking-tight text-[hsl(var(--color-foreground))] md:text-5xl" itemProp="name">
                       {toolDisplayName}
                     </h1>
+
                     <p className="mt-3 max-w-3xl text-lg leading-relaxed text-[hsl(var(--color-muted-foreground))]" itemProp="description">
                       {content.metaDescription}
                     </p>
-                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-[hsl(var(--color-muted-foreground))]">
-                      <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> Usually finishes in seconds</span>
-                      <span className="inline-flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-[hsl(var(--color-accent))]" /> Works with PDFto visual shell</span>
+
+                    <div className="mt-5 flex flex-wrap gap-3 text-sm text-[hsl(var(--color-muted-foreground))]">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--color-card)/0.72)] px-3 py-1.5 shadow-sm">
+                        <Clock className="h-4 w-4" aria-hidden="true" /> Usually finishes in seconds
+                      </span>
+                      <a
+                        href="#tool-workspace"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[hsl(var(--color-primary)/0.10)] px-3 py-1.5 font-semibold text-[hsl(var(--color-primary))] transition hover:bg-[hsl(var(--color-primary)/0.16)]"
+                      >
+                        <MousePointerClick className="h-4 w-4" aria-hidden="true" /> Jump to upload
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -96,19 +167,46 @@ export function ToolPage({ tool, content, locale, children, localizedRelatedTool
             </div>
           </section>
 
-          <section className="container mx-auto px-4 py-10" aria-label="Tool interface">
-            <div className="mb-6 flex flex-wrap items-center gap-3 text-sm">
-              {['Upload', 'Configure', 'Process & download'].map((step, index) => (
-                <div key={step} className="flex items-center gap-2">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[hsl(var(--color-primary))] text-xs font-bold text-white">{index + 1}</span>
-                  <span className="font-medium text-[hsl(var(--color-foreground))]">{step}</span>
-                  {index < 2 && <span className="h-px w-8 bg-[hsl(var(--color-border))]" />}
-                </div>
-              ))}
-            </div>
+          <section ref={toolInterfaceRef} id="tool-workspace" className="container mx-auto scroll-mt-28 px-4 py-10" aria-label="Tool interface">
+            <div className="mx-auto max-w-5xl">
+              <div className="mb-6 overflow-hidden rounded-[1.75rem] border border-[hsl(var(--color-border)/0.80)] bg-[hsl(var(--color-card)/0.78)] p-3 shadow-[var(--shadow-soft)] backdrop-blur-xl">
+                <ol className="grid gap-3 md:grid-cols-4" aria-label="Processing steps">
+                  {workflowSteps.map(({ label, helper, Icon: StepIcon }, index) => {
+                    const isFirst = index === 0;
+                    return (
+                      <li key={label} className="relative">
+                        {index < workflowSteps.length - 1 && (
+                          <span className="pdfto-step-connector hidden md:block" aria-hidden="true" />
+                        )}
+                        <div className={`relative flex items-center gap-3 rounded-2xl border p-3 transition ${
+                          isFirst
+                            ? 'border-[hsl(var(--color-primary)/0.35)] bg-[hsl(var(--color-primary)/0.08)] shadow-[0_12px_30px_hsl(var(--color-primary)/0.10)]'
+                            : 'border-transparent bg-transparent hover:bg-[hsl(var(--color-muted)/0.45)]'
+                        }`}>
+                          <span className={`relative grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-sm font-black ${
+                            isFirst
+                              ? 'bg-[hsl(var(--color-primary))] text-white shadow-[var(--shadow-glow)]'
+                              : 'bg-[hsl(var(--color-muted))] text-[hsl(var(--color-muted-foreground))]'
+                          }`}>
+                            <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full border border-[hsl(var(--color-card))] bg-[hsl(var(--color-card))] text-[10px] font-black text-[hsl(var(--color-foreground))] shadow-sm">
+                              {index + 1}
+                            </span>
+                            <StepIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-sm font-bold text-[hsl(var(--color-foreground))]">{label}</span>
+                            <span className="block text-xs text-[hsl(var(--color-muted-foreground))]">{helper}</span>
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
 
-            <div className="rounded-[2rem] border border-[hsl(var(--color-border))] bg-[hsl(var(--color-card))] p-4 shadow-[var(--shadow-soft)] sm:p-6">
-              {children}
+              <div className="rounded-[2rem] border border-[hsl(var(--color-border)/0.86)] bg-[hsl(var(--color-card)/0.86)] p-4 shadow-[var(--shadow-soft)] backdrop-blur-xl sm:p-6">
+                {children}
+              </div>
             </div>
           </section>
 
@@ -227,7 +325,7 @@ function RelatedToolsSection({
               <Card className="h-full rounded-3xl p-5 transition group-hover:-translate-y-1 group-hover:border-[hsl(var(--color-primary)/0.45)]" hover={false}>
                 <div className="flex items-center gap-4">
                   <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[hsl(var(--color-primary-soft))] text-[hsl(var(--color-primary))] transition group-hover:bg-[hsl(var(--color-primary))] group-hover:text-white">
-                    <Icon className="h-6 w-6" />
+                    <Icon className="h-6 w-6" aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
                     <span className="block truncate font-bold text-[hsl(var(--color-foreground))]">{localized?.title ?? toTitle(tool.id)}</span>

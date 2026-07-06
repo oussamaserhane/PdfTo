@@ -1,0 +1,86 @@
+/* PDFto modern tool workspace additions.
+   Append this block to the end of src/app/globals.css. */
+
+@keyframes pdfto-upload-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+}
+
+@keyframes pdfto-upload-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pdfto-upload-pulse-ring {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.64;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.28;
+  }
+}
+
+@keyframes pdfto-step-flow {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.45;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.45;
+  }
+}
+
+.pdfto-upload-icon {
+  animation: pdfto-upload-float 3.2s ease-in-out infinite;
+}
+
+.pdfto-upload-orbit {
+  animation: pdfto-upload-orbit 9s linear infinite;
+}
+
+.pdfto-upload-ring {
+  animation: pdfto-upload-pulse-ring 2.6s ease-in-out infinite;
+}
+
+.pdfto-step-connector {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 0.25rem);
+  z-index: 0;
+  height: 2px;
+  width: 2rem;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    hsl(var(--color-primary) / 0.18),
+    hsl(var(--color-primary) / 0.70),
+    hsl(var(--color-accent) / 0.58),
+    hsl(var(--color-primary) / 0.18)
+  );
+  background-size: 220% 100%;
+  animation: pdfto-step-flow 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdfto-upload-icon,
+  .pdfto-upload-orbit,
+  .pdfto-upload-ring,
+  .pdfto-step-connector {
+    animation: none !important;
+  }
+}
